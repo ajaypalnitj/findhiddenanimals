@@ -16,10 +16,152 @@ body {
 #game-area {
     width: 100vw;
     height: 100vh;
-    background-color: #87CEEB;
+    background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 55%, #6ab04c 55%);
     position: relative;
     cursor: pointer;
     overflow: hidden;
+}
+
+/* Add sun */
+#game-area::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 80px;
+    height: 80px;
+    background: #FFD700;
+    border-radius: 50%;
+    box-shadow: 0 0 60px #FFD700;
+    z-index: 0;
+}
+
+/* Add farm decorative elements */
+.farm-decorations {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45vh;
+    pointer-events: none;
+}
+
+/* Grass texture */
+.grass-texture {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45vh;
+    background-image: 
+        repeating-linear-gradient(
+            80deg,
+            rgba(106, 176, 76, 0.5) 0px,
+            rgba(106, 176, 76, 0.5) 2px,
+            transparent 2px,
+            transparent 6px
+        ),
+        repeating-linear-gradient(
+            -80deg,
+            rgba(106, 176, 76, 0.5) 0px,
+            rgba(106, 176, 76, 0.5) 2px,
+            transparent 2px,
+            transparent 6px
+        ),
+        linear-gradient(
+            to bottom,
+            #6ab04c 0%,
+            #82c91e 100%
+        );
+    z-index: 0;
+}
+
+/* Add wooden fence */
+.fence {
+    position: absolute;
+    bottom: 20vh;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background-image: 
+        repeating-linear-gradient(
+            90deg,
+            #8B4513 0px,
+            #8B4513 15px,
+            transparent 15px,
+            transparent 30px
+        ),
+        linear-gradient(
+            0deg,
+            #8B4513 0px,
+            #8B4513 10px,
+            transparent 10px
+        );
+    z-index: 1;
+}
+
+/* Add farm elements */
+.farm-element {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.hay-bale {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23DEB887"/><path d="M30 50 h40" stroke="%238B4513" stroke-width="5"/><path d="M30 40 h40" stroke="%238B4513" stroke-width="5"/><path d="M30 60 h40" stroke="%238B4513" stroke-width="5"/></svg>');
+    bottom: 5vh;
+    left: 10vw;
+}
+
+.tree {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="45" y="60" width="10" height="30" fill="%238B4513"/><path d="M50 10 L20 60 H80 Z" fill="%23228B22"/><path d="M50 30 L25 70 H75 Z" fill="%23228B22"/></svg>');
+    bottom: 25vh;
+    right: 15vw;
+    width: 100px;
+    height: 100px;
+}
+
+/* Add floating clouds */
+@keyframes float-cloud {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100vw); }
+}
+
+.cloud {
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    background: white;
+    border-radius: 20px;
+    animation: float-cloud 20s linear infinite;
+    opacity: 0.8;
+    z-index: 0;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.cloud::before {
+    width: 50px;
+    height: 50px;
+    top: -20px;
+    left: 15px;
+}
+
+.cloud::after {
+    width: 30px;
+    height: 30px;
+    top: -10px;
+    right: 15px;
 }
 
 .game-overlay {
@@ -43,6 +185,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 4px solid #654321;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .score-container {
@@ -64,12 +208,14 @@ body {
     background: rgba(255, 255, 255, 0.95);
     padding: 30px;
     border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                0 0 0 10px rgba(101, 67, 33, 0.3);
     z-index: 200;
     width: 90%;
     max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
+    border: 4px solid #654321;
 }
 
 h1 {
@@ -181,24 +327,26 @@ h1 {
 button {
     padding: 12px 24px;
     font-size: 1.2em;
-    background-color: #4CAF50;
+    background-color: #8B4513;
     color: #fff;
-    border: none;
+    border: 3px solid #654321;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 0 #3E2723;
+    position: relative;
+    top: 0;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #A0522D;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 0 #3E2723;
 }
 
 button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    top: 4px;
+    box-shadow: 0 0 0 #3E2723;
 }
 
 #win-message {
