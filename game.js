@@ -140,10 +140,25 @@ class CowGame {
         try {
             // Create audio context
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Resume audio context if it's suspended (needed for Chrome)
+            if (this.audioContext.state === 'suspended') {
+                await this.audioContext.resume();
+            }
+            
             this.gainNode = this.audioContext.createGain();
             this.gainNode.connect(this.audioContext.destination);
             
             await this.loadAnimalSounds(this.currentAnimal);
+
+            // Add event listener for visibility change
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    this.audioContext.suspend();
+                } else {
+                    this.audioContext.resume();
+                }
+            });
         } catch (error) {
             console.error('Error loading sounds:', error);
         }
@@ -152,29 +167,38 @@ class CowGame {
     async loadAnimalSounds(animalKey) {
         const animal = ANIMALS[animalKey];
         
-        // Load sounds
-        const [bellResponse, foundResponse] = await Promise.all([
-            fetch(animal.sounds.bell),
-            fetch(animal.sounds.found)
-        ]);
-        
-        if (!bellResponse.ok || !foundResponse.ok) {
-            throw new Error('Failed to load sound files');
+        try {
+            // Load sounds
+            const [bellResponse, foundResponse] = await Promise.all([
+                fetch(animal.sounds.bell),
+                fetch(animal.sounds.found)
+            ]);
+            
+            if (!bellResponse.ok || !foundResponse.ok) {
+                throw new Error('Failed to load sound files');
+            }
+            
+            const [bellBuffer, foundBuffer] = await Promise.all([
+                bellResponse.arrayBuffer().then(buffer => this.audioContext.decodeAudioData(buffer)),
+                foundResponse.arrayBuffer().then(buffer => this.audioContext.decodeAudioData(buffer))
+            ]);
+            
+            this.sounds.bell = bellBuffer;
+            this.sounds.found = foundBuffer;
+        } catch (error) {
+            console.error('Error loading sounds for', animalKey, error);
         }
-        
-        const [bellBuffer, foundBuffer] = await Promise.all([
-            bellResponse.arrayBuffer().then(buffer => this.audioContext.decodeAudioData(buffer)),
-            foundResponse.arrayBuffer().then(buffer => this.audioContext.decodeAudioData(buffer))
-        ]);
-        
-        this.sounds.bell = bellBuffer;
-        this.sounds.found = foundBuffer;
     }
     
     startGame() {
         this.isPlaying = true;
         document.getElementById('start-screen').style.display = 'none';
         this.winMessage.style.display = 'none';
+        
+        // Resume audio context if suspended
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
         
         // Reset score and timer with difficulty multiplier
         this.score = 1000 * this.difficultyLevels[this.currentDifficulty].scoreMultiplier;
@@ -283,38 +307,57 @@ class CowGame {
     }
     
     playSound(distance, soundType = 'bell') {
-        if (!this.sounds[soundType]) return;
-        
-        const source = this.audioContext.createBufferSource();
-        source.buffer = this.sounds[soundType];
-        
-        const gainNode = this.audioContext.createGain();
-        
-        if (soundType === 'bell') {
-            const maxDistance = Math.sqrt(
-                Math.pow(this.gameArea.clientWidth, 2) + 
-                Math.pow(this.gameArea.clientHeight, 2)
-            );
-            // Use exponential curve for more natural sound falloff
-            const normalizedDistance = Math.min(distance / maxDistance, 1);
-            const curve = 3; // Steeper curve for more dramatic sound changes
-            const soundRange = ANIMALS[this.currentAnimal].difficulty.soundRange;
-            let volume = Math.pow(1 - normalizedDistance, curve);
-            // Scale volume between animal's min and max sound range
-            volume = soundRange.min + (soundRange.max - soundRange.min) * volume;
-            gainNode.gain.value = volume;
-        } else {
-            gainNode.gain.value = 1; // Full volume for found sound
+        if (!this.sounds[soundType] || !this.audioContext) return;
+
+        try {
+            // Check if context is suspended and resume it
+            if (this.audioContext.state === 'suspended') {
+                this.audioContext.resume();
+            }
+
+            const source = this.audioContext.createBufferSource();
+            source.buffer = this.sounds[soundType];
+            
+            const gainNode = this.audioContext.createGain();
+            
+            if (soundType === 'bell') {
+                const maxDistance = Math.sqrt(
+                    Math.pow(this.gameArea.clientWidth, 2) + 
+                    Math.pow(this.gameArea.clientHeight, 2)
+                );
+                // Use exponential curve for more natural sound falloff
+                const normalizedDistance = Math.min(distance / maxDistance, 1);
+                const curve = 3; // Steeper curve for more dramatic sound changes
+                const soundRange = ANIMALS[this.currentAnimal].difficulty.soundRange;
+                let volume = Math.pow(1 - normalizedDistance, curve);
+                // Scale volume between animal's min and max sound range
+                volume = soundRange.min + (soundRange.max - soundRange.min) * volume;
+                gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime);
+            } else {
+                gainNode.gain.setValueAtTime(1, this.audioContext.currentTime);
+            }
+            
+            source.connect(gainNode);
+            gainNode.connect(this.audioContext.destination);
+            
+            source.start(0);
+            
+            // Clean up after sound finishes
+            source.onended = () => {
+                source.disconnect();
+                gainNode.disconnect();
+            };
+
+            return new Promise(resolve => {
+                source.onended = () => {
+                    source.disconnect();
+                    gainNode.disconnect();
+                    resolve();
+                };
+            });
+        } catch (error) {
+            console.error('Error playing sound:', error);
         }
-        
-        source.connect(gainNode);
-        gainNode.connect(this.audioContext.destination);
-        
-        source.start(0);
-        
-        return new Promise(resolve => {
-            source.onended = resolve;
-        });
     }
     
     getRandomFact() {

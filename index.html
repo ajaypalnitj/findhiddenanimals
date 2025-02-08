@@ -12,19 +12,48 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🐮</text></svg>">
     
     <!-- Primary Meta Tags -->
-    <meta name="description" content="Play this unique browser game where you find invisible animals using sound! Click around and follow the bell sounds to locate the hidden animals. Perfect for all ages!">
+    <meta name="description" content="Play this unique browser game where you find invisible animals using sound! Click around and follow the bell sounds to locate hidden animals. Perfect for all ages!">
+    <meta name="keywords" content="browser game, sound game, hidden animals, find the cow, kids game, family game, educational game">
+    <meta name="author" content="Find Hidden Animals">
+    <meta name="robots" content="index, follow">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Find Hidden Animals! - Can you beat my high score?">
     <meta property="og:description" content="I just found the hidden animal! Play this fun sound-based browser game and try to beat my score. The closer you get, the louder the bell rings!">
-    <meta property="og:image" content="https://findhiddenanimals.com/cow-share.png">
+    <meta property="og:image" content="https://findhiddenanimals.com/cow.png">
     <meta property="og:url" content="https://findhiddenanimals.com/">
     <meta property="og:site_name" content="Find Hidden Animals">
     
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Find Hidden Animals! - A Fun Sound-Based Game">
+    <meta name="twitter:description" content="Play this unique browser game where you find invisible animals using sound! Perfect for all ages!">
+    <meta name="twitter:image" content="https://findhiddenanimals.com/cow-share.png">
+    
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.min.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- JSON-LD for structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Find Hidden Animals",
+        "description": "A fun browser-based game where players find invisible animals using sound cues",
+        "genre": ["Educational", "Casual", "Family"],
+        "gamePlatform": "Browser",
+        "applicationCategory": "Browser Game",
+        "operatingSystem": "Any",
+        "url": "https://findhiddenanimals.com",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
 </head>
 <body>
     <div id="game-area">
@@ -85,6 +114,18 @@
             </div>
         </div>
     </div>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="/about.html">About</a>
+            </div>
+            <div class="copyright">
+                © 2025 Find Hidden Animals. All rights reserved.
+            </div>
+        </div>
+    </footer>
     <script type="module" src="game.min.js"></script>
     <!-- Prevent right-click -->
     <script>
