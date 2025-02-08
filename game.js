@@ -108,14 +108,18 @@ class CowGame {
     
     shareOnTwitter() {
         const fact = this.getRandomFact();
-        const text = `I just found the invisible cow with a score of ${this.score}! 🐮\n\nCow Fact: ${fact}\n\nCan you beat my score?`;
+        const animalEmoji = ANIMALS[this.currentAnimal].emoji || '🐮';
+        const animalName = ANIMALS[this.currentAnimal].name || 'animal';
+        const text = `I just found the invisible ${animalName.toLowerCase()} with a score of ${this.score}! ${animalEmoji}\n\n${animalName} Fact: ${fact}\n\nCan you beat my score?`;
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`);
     }
     
     shareOnFacebook() {
+        const animalEmoji = ANIMALS[this.currentAnimal].emoji || '🐮';
+        const animalName = ANIMALS[this.currentAnimal].name || 'animal';
         // Update meta tags dynamically before sharing
-        document.querySelector('meta[property="og:title"]').setAttribute('content', `Find The Cow! - I scored ${this.score} points! Can you beat that?`);
-        document.querySelector('meta[property="og:description"]').setAttribute('content', `I just found the invisible cow with a score of ${this.score}! 🐮 Play this fun sound-based browser game and try to beat my score!`);
+        document.querySelector('meta[property="og:title"]').setAttribute('content', `Find The ${animalName}! - I scored ${this.score} points! Can you beat that?`);
+        document.querySelector('meta[property="og:description"]').setAttribute('content', `I just found the invisible ${animalName.toLowerCase()} with a score of ${this.score}! ${animalEmoji} Play this fun sound-based browser game and try to beat my score!`);
         
         // Share the URL
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://findhiddenanimals.com/'));
@@ -123,7 +127,9 @@ class CowGame {
     
     copyLink() {
         const fact = this.getRandomFact();
-        const text = `I just found the invisible cow with a score of ${this.score}! 🐮\n\nCow Fact: ${fact}\n\nCan you beat my score? Play here: ${window.location.href}`;
+        const animalEmoji = ANIMALS[this.currentAnimal].emoji || '🐮';
+        const animalName = ANIMALS[this.currentAnimal].name || 'animal';
+        const text = `I just found the invisible ${animalName.toLowerCase()} with a score of ${this.score}! ${animalEmoji}\n\n${animalName} Fact: ${fact}\n\nCan you beat my score? Play here: ${window.location.href}`;
         navigator.clipboard.writeText(text).then(() => {
             const copyBtn = document.querySelector('.copy-link');
             const originalText = copyBtn.innerHTML;

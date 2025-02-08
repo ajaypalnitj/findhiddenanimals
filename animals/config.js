@@ -43,6 +43,7 @@ const ANIMAL_FACTS = {
 const ANIMALS = {
     cow: {
         name: 'Cow',
+        emoji: '🐮',
         level: 1,
         sprite: 'animals/cow/animal.png',
         sounds: {
@@ -62,6 +63,7 @@ const ANIMALS = {
     },
     sheep: {
         name: 'Sheep',
+        emoji: '🐑',
         level: 2,
         sprite: 'animals/sheep/animal.png',
         sounds: {
@@ -81,6 +83,7 @@ const ANIMALS = {
     },
     chicken: {
         name: 'Chicken',
+        emoji: '🐔',
         level: 3,
         sprite: 'animals/chicken/animal.png',
         sounds: {
@@ -100,6 +103,7 @@ const ANIMALS = {
     },
     pig: {
         name: 'Pig',
+        emoji: '🐷',
         level: 4,
         sprite: 'animals/pig/animal.png',
         sounds: {
@@ -119,6 +123,7 @@ const ANIMALS = {
     },
     horse: {
         name: 'Horse',
+        emoji: '🐎',
         level: 5,
         sprite: 'animals/horse/animal.png',
         sounds: {
