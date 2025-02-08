@@ -19,8 +19,6 @@ class CowGame {
         this.score = 0;
         this.highScore = localStorage.getItem('highScore') || 0;
         this.totalFinds = localStorage.getItem('totalFinds') || 0;
-        this.currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
-        this.bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
         this.cowPosition = { x: 0, y: 0 };
         this.sounds = { bell: null, found: null };
 
@@ -223,7 +221,12 @@ class CowGame {
                 timeElapsed * (10 * this.difficultyLevels[this.currentDifficulty].scoreMultiplier)
             );
             this.scoreElement.textContent = this.score;
-        }, 1000);
+            
+            // End game if score hits zero
+            if (this.score <= 0) {
+                this.gameOver();
+            }
+        }, 100); // Update more frequently (10 times per second)
         
         // Random position for the cow with margin
         const gameRect = this.gameArea.getBoundingClientRect();
@@ -265,9 +268,6 @@ class CowGame {
         const searchRadius = this.difficultyLevels[this.currentDifficulty].searchRadius;
         if (distance < searchRadius) {
             this.cowFound();
-        } else {
-            // Reset streak on wrong clicks
-            this.resetStreak();
         }
     }
     
@@ -371,6 +371,7 @@ class CowGame {
         
         // Show animal and play found sound
         this.cow.style.display = 'block';
+        this.cow.style.opacity = '1';
         this.cow.style.transform = 'scale(2)';
         if (this.audioContext) {
             this.playSound(0, 'found'); // Play animal found sound
@@ -381,15 +382,6 @@ class CowGame {
             this.highScore = this.score;
             this.highScoreElement.textContent = this.highScore;
             localStorage.setItem('highScore', this.highScore);
-        }
-        
-        // Update streak
-        this.currentStreak++;
-        localStorage.setItem('currentStreak', this.currentStreak);
-        
-        if (this.currentStreak > this.bestStreak) {
-            this.bestStreak = this.currentStreak;
-            localStorage.setItem('bestStreak', this.bestStreak);
         }
         
         // Increment finds for current animal
@@ -415,8 +407,7 @@ class CowGame {
         // Show win message
         const winMessageH2 = this.winMessage.querySelector('h2');
         winMessageH2.innerHTML = `You found the ${ANIMALS[this.currentAnimal].name}! 🎉<br>
-            Score: ${this.score}<br>
-            Streak: ${this.currentStreak} (Best: ${this.bestStreak})<br><br>
+            Score: ${this.score}<br><br>
             Fun Fact: ${this.getRandomFact()}`;
         
         this.winMessage.style.display = 'block';
@@ -428,12 +419,6 @@ class CowGame {
         if (this.audioContext) {
             this.playSound(0, 'bell');
         }
-    }
-    
-    // Add method to reset streak
-    resetStreak() {
-        this.currentStreak = 0;
-        localStorage.setItem('currentStreak', 0);
     }
     
     showAnimalSelection() {
@@ -543,6 +528,23 @@ class CowGame {
             this.currentAnimal = 'cow';
             this.cow.src = 'animals/cow/animal.png';
         }
+    }
+
+    gameOver() {
+        this.isPlaying = false;
+        clearInterval(this.timerInterval);
+        
+        // Show game over message
+        const winMessageH2 = this.winMessage.querySelector('h2');
+        winMessageH2.innerHTML = `Time's up! The ${ANIMALS[this.currentAnimal].name} got away! 😢<br>
+            Score: 0<br><br>
+            Try again!`;
+        
+        this.winMessage.style.display = 'block';
+        
+        // Show where the animal was
+        this.cow.style.display = 'block';
+        this.cow.style.opacity = '0.5';
     }
 }
 
