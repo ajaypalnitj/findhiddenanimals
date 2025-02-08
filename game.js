@@ -109,27 +109,26 @@ class CowGame {
     shareOnTwitter() {
         const fact = this.getRandomFact();
         const animalEmoji = ANIMALS[this.currentAnimal].emoji || '🐮';
-        const animalName = ANIMALS[this.currentAnimal].name || 'animal';
-        const text = `I just found the invisible ${animalName.toLowerCase()} with a score of ${this.score}! ${animalEmoji}\n\n${animalName} Fact: ${fact}\n\nCan you beat my score?`;
+        const animalName = ANIMALS[this.currentAnimal].name.toLowerCase();
+        const text = `I just found the invisible ${animalName} with a score of ${this.score}! ${animalEmoji}\n\n${animalName} Fact: ${fact}\n\nCan you beat my score?`;
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`);
     }
     
     shareOnFacebook() {
         const animalEmoji = ANIMALS[this.currentAnimal].emoji || '🐮';
-        const animalName = ANIMALS[this.currentAnimal].name || 'animal';
+        const animalName = ANIMALS[this.currentAnimal].name;
         // Update meta tags dynamically before sharing
-        document.querySelector('meta[property="og:title"]').setAttribute('content', `Find The ${animalName}! - I scored ${this.score} points! Can you beat that?`);
+        document.querySelector('meta[property="og:title"]').setAttribute('content', `Find The ${animalName}! - I scored ${this.score} points! ${animalEmoji}`);
         document.querySelector('meta[property="og:description"]').setAttribute('content', `I just found the invisible ${animalName.toLowerCase()} with a score of ${this.score}! ${animalEmoji} Play this fun sound-based browser game and try to beat my score!`);
         
-        // Share the URL
-        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://findhiddenanimals.com/'));
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href));
     }
     
     copyLink() {
         const fact = this.getRandomFact();
         const animalEmoji = ANIMALS[this.currentAnimal].emoji || '🐮';
-        const animalName = ANIMALS[this.currentAnimal].name || 'animal';
-        const text = `I just found the invisible ${animalName.toLowerCase()} with a score of ${this.score}! ${animalEmoji}\n\n${animalName} Fact: ${fact}\n\nCan you beat my score? Play here: ${window.location.href}`;
+        const animalName = ANIMALS[this.currentAnimal].name.toLowerCase();
+        const text = `I just found the invisible ${animalName} with a score of ${this.score}! ${animalEmoji}\n\n${animalName} Fact: ${fact}\n\nCan you beat my score? Play here: ${window.location.href}`;
         navigator.clipboard.writeText(text).then(() => {
             const copyBtn = document.querySelector('.copy-link');
             const originalText = copyBtn.innerHTML;
@@ -172,23 +171,48 @@ class CowGame {
         const animal = ANIMALS[animalKey];
         
         try {
-            // Load sounds
+            // Clear existing sounds
+            this.sounds = { bell: null, found: null };
+            
+            // Load sounds with error handling
             const [bellResponse, foundResponse] = await Promise.all([
-                fetch(animal.sounds.bell),
-                fetch(animal.sounds.found)
+                fetch(animal.sounds.bell).catch(err => {
+                    console.error(`Failed to fetch bell sound for ${animalKey}:`, err);
+                    return null;
+                }),
+                fetch(animal.sounds.found).catch(err => {
+                    console.error(`Failed to fetch found sound for ${animalKey}:`, err);
+                    return null;
+                })
             ]);
             
+            if (!bellResponse || !foundResponse) {
+                throw new Error(`Failed to load sound files for ${animalKey}`);
+            }
+            
             if (!bellResponse.ok || !foundResponse.ok) {
-                throw new Error('Failed to load sound files');
+                throw new Error(`Failed to load sound files for ${animalKey}`);
             }
             
             const [bellBuffer, foundBuffer] = await Promise.all([
-                bellResponse.arrayBuffer().then(buffer => this.audioContext.decodeAudioData(buffer)),
-                foundResponse.arrayBuffer().then(buffer => this.audioContext.decodeAudioData(buffer))
+                bellResponse.arrayBuffer()
+                    .then(buffer => this.audioContext.decodeAudioData(buffer))
+                    .catch(err => {
+                        console.error(`Failed to decode bell sound for ${animalKey}:`, err);
+                        return null;
+                    }),
+                foundResponse.arrayBuffer()
+                    .then(buffer => this.audioContext.decodeAudioData(buffer))
+                    .catch(err => {
+                        console.error(`Failed to decode found sound for ${animalKey}:`, err);
+                        return null;
+                    })
             ]);
             
-            this.sounds.bell = bellBuffer;
-            this.sounds.found = foundBuffer;
+            if (bellBuffer) this.sounds.bell = bellBuffer;
+            if (foundBuffer) this.sounds.found = foundBuffer;
+            
+            console.log(`Successfully loaded sounds for ${animalKey}`);
         } catch (error) {
             console.error('Error loading sounds for', animalKey, error);
         }

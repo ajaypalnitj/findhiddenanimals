@@ -16,112 +16,200 @@ body {
 #game-area {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 55%, #6ab04c 55%);
+    background: #82c91e;
     position: relative;
     cursor: pointer;
     overflow: hidden;
 }
 
-/* Add sun */
-#game-area::after {
-    content: '';
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    width: 80px;
-    height: 80px;
-    background: #FFD700;
-    border-radius: 50%;
-    box-shadow: 0 0 60px #FFD700;
-    z-index: 0;
-}
-
 /* Add farm decorative elements */
 .farm-decorations {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
-    height: 45vh;
+    bottom: 0;
     pointer-events: none;
 }
 
-/* Grass texture */
+/* Base grass texture */
 .grass-texture {
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: 45vh;
     background-image: 
         repeating-linear-gradient(
-            80deg,
-            rgba(106, 176, 76, 0.5) 0px,
-            rgba(106, 176, 76, 0.5) 2px,
+            45deg,
+            rgba(106, 176, 76, 0.4) 0px,
+            rgba(106, 176, 76, 0.4) 2px,
             transparent 2px,
-            transparent 6px
+            transparent 15px
         ),
         repeating-linear-gradient(
-            -80deg,
-            rgba(106, 176, 76, 0.5) 0px,
-            rgba(106, 176, 76, 0.5) 2px,
+            -45deg,
+            rgba(106, 176, 76, 0.4) 0px,
+            rgba(106, 176, 76, 0.4) 2px,
             transparent 2px,
-            transparent 6px
-        ),
-        linear-gradient(
-            to bottom,
-            #6ab04c 0%,
-            #82c91e 100%
+            transparent 15px
         );
-    z-index: 0;
+    background-color: #82c91e;
 }
 
-/* Add wooden fence */
-.fence {
+/* Add farm paths */
+.grass-texture::after {
+    content: '';
     position: absolute;
-    bottom: 20vh;
+    top: 0;
     left: 0;
     right: 0;
-    height: 40px;
+    bottom: 0;
     background-image: 
-        repeating-linear-gradient(
-            90deg,
-            #8B4513 0px,
-            #8B4513 15px,
-            transparent 15px,
-            transparent 30px
-        ),
-        linear-gradient(
-            0deg,
-            #8B4513 0px,
-            #8B4513 10px,
-            transparent 10px
-        );
-    z-index: 1;
+        linear-gradient(90deg, transparent 48%, #a17f4b 48%, #a17f4b 52%, transparent 52%),
+        linear-gradient(0deg, transparent 48%, #a17f4b 48%, #a17f4b 52%, transparent 52%);
+    background-size: 200px 200px;
+    opacity: 0.3;
 }
 
-/* Add farm elements */
+/* Farm elements */
 .farm-element {
     position: absolute;
-    width: 60px;
-    height: 60px;
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 1;
 }
 
-.hay-bale {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23DEB887"/><path d="M30 50 h40" stroke="%238B4513" stroke-width="5"/><path d="M30 40 h40" stroke="%238B4513" stroke-width="5"/><path d="M30 60 h40" stroke="%238B4513" stroke-width="5"/></svg>');
-    bottom: 5vh;
-    left: 10vw;
+/* Add crop fields */
+.crop-field {
+    position: absolute;
+    background: #6d9c3c;
+    border: 4px solid #5a7e32;
+    z-index: 1;
 }
 
+.crop-field::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 10px,
+            rgba(90, 126, 50, 0.5) 10px,
+            rgba(90, 126, 50, 0.5) 12px
+        );
+}
+
+.crop-field:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    width: 150px;
+    height: 100px;
+    transform: rotate(15deg);
+}
+
+.crop-field:nth-child(2) {
+    bottom: 20%;
+    right: 15%;
+    width: 120px;
+    height: 180px;
+    transform: rotate(-10deg);
+}
+
+/* Add hay bales */
+.hay-bale {
+    width: 40px;
+    height: 40px;
+    background-color: #deb887;
+    border: 3px solid #b8860b;
+    border-radius: 20px;
+}
+
+.hay-bale:nth-child(1) { top: 30%; left: 40%; }
+.hay-bale:nth-child(2) { top: 35%; left: 43%; }
+.hay-bale:nth-child(3) { top: 32%; left: 46%; }
+.hay-bale:nth-child(4) { bottom: 25%; right: 30%; }
+.hay-bale:nth-child(5) { bottom: 28%; right: 33%; }
+
+/* Add trees */
 .tree {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="45" y="60" width="10" height="30" fill="%238B4513"/><path d="M50 10 L20 60 H80 Z" fill="%23228B22"/><path d="M50 30 L25 70 H75 Z" fill="%23228B22"/></svg>');
-    bottom: 25vh;
-    right: 15vw;
+    width: 30px;
+    height: 30px;
+    background: #2d5a27;
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px rgba(45, 90, 39, 0.6);
+}
+
+.tree:nth-child(1) { top: 15%; right: 20%; }
+.tree:nth-child(2) { top: 18%; right: 22%; }
+.tree:nth-child(3) { top: 16%; right: 24%; }
+.tree:nth-child(4) { bottom: 10%; left: 25%; }
+.tree:nth-child(5) { bottom: 13%; left: 28%; }
+
+/* Add pond */
+.pond {
+    position: absolute;
+    width: 120px;
+    height: 90px;
+    background: #4fa3d1;
+    border-radius: 60%/50%;
+    bottom: 30%;
+    left: 15%;
+    transform: rotate(15deg);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.pond::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 60%/50%;
+}
+
+/* Keep animal sprite normal */
+.cow {
     width: 100px;
     height: 100px;
+    position: absolute;
+    display: none;
+    transition: transform 0.3s ease-out;
+    object-fit: contain;
+    z-index: 2;
+}
+
+.cow.found {
+    transform: scale(2);
+}
+
+/* Keep clouds as they are */
+.cloud {
+    z-index: 3;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .cow {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .crop-field {
+        transform: scale(0.7);
+    }
+    
+    .pond {
+        transform: scale(0.7);
+    }
 }
 
 /* Add floating clouds */
@@ -237,16 +325,6 @@ h1 {
     font-weight: bold;
     margin-top: 10px;
     display: none;
-}
-
-.cow {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    display: none;
-    transition: transform 0.3s ease-out;
-    object-fit: contain;
-    z-index: 1;
 }
 
 .click-feedback {
@@ -423,21 +501,6 @@ button:active {
         width: 100%;
         justify-content: center;
         padding: 12px;
-    }
-
-    .cow {
-        width: 50px;
-        height: 50px;
-    }
-
-    button {
-        padding: 10px 20px;
-        font-size: 1.1em;
-        width: 100%;
-    }
-
-    #win-message h2 {
-        font-size: 1.4em;
     }
 
     .footer-content {
