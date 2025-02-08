@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Hidden Animals! - A Fun Sound-Based Browser Game</title>
+    
+    <!-- Google Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3258962387253075" crossorigin="anonymous"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🐮</text></svg>">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Play this unique browser game where you find invisible animals using sound! Click around and follow the bell sounds to locate the hidden animals. Perfect for all ages!">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Find Hidden Animals! - Can you beat my high score?">
+    <meta property="og:description" content="I just found the hidden animal! Play this fun sound-based browser game and try to beat my score. The closer you get, the louder the bell rings!">
+    <meta property="og:image" content="https://findhiddenanimals.com/cow-share.png">
+    <meta property="og:url" content="https://findhiddenanimals.com/">
+    <meta property="og:site_name" content="Find Hidden Animals">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="game-area">
+        <div class="game-overlay">
+            <div class="game-header">
+                <div class="score-container">
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="high-score">Best: <span id="high-score">0</span></div>
+                    <div class="total-finds">Total Finds: <span id="total-finds">0</span></div>
+                </div>
+                <div class="level-info">
+                    <div class="current-animal">Level <span id="current-level">1</span>: <span id="animal-name">Cow</span></div>
+                    <div class="finds-counter"><span id="animal-finds">0</span> finds</div>
+                </div>
+                <div class="timer">Time: <span id="time">0</span>s</div>
+            </div>
+            
+            <div id="start-screen" class="center-content">
+                <h1>Find Hidden Animals!</h1>
+                <div id="animal-select">
+                    <div class="animal-grid">
+                        <!-- Animal cards will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                <div id="instructions">
+                    <p>Click around to find the invisible animal!</p>
+                    <p>The closer you get, the louder the bell rings!</p>
+                    <p class="mobile-note">(Turn on sound for best experience)</p>
+                </div>
+                <div id="unlock-progress">
+                    <div class="progress-text">Next unlock: <span id="next-unlock">Find cow 5 times</span></div>
+                    <div class="progress-bar">
+                        <div id="unlock-progress-fill"></div>
+                    </div>
+                </div>
+                <button id="start-game">Start Game</button>
+            </div>
+            
+            <div id="win-message" class="center-content" style="display: none;">
+                <h2>You found the <span id="found-animal">cow</span>! 🎉</h2>
+                <div id="unlock-notification" style="display: none;">
+                    <h3>🎉 New Animal Unlocked! 🎉</h3>
+                    <p>You've unlocked the <span id="unlocked-animal">sheep</span>!</p>
+                </div>
+                <div class="social-share">
+                    <button class="share-btn twitter">
+                        <i class="fab fa-x-twitter"></i> Share
+                    </button>
+                    <button class="share-btn facebook">
+                        <i class="fab fa-facebook"></i> Share
+                    </button>
+                    <button class="share-btn copy-link">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                </div>
+                <button id="play-again">Play Again</button>
+                <button id="change-animal">Change Animal</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="game.min.js"></script>
+    <!-- Prevent right-click -->
+    <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+        }
+    });
+    </script>
+</body>
+</html> 
