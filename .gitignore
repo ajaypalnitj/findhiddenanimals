@@ -55,7 +55,9 @@ pids
 *.jpg
 *.jpeg
 *.gif
+!animals/**/*.png
 !cow.png
+!cow-share.png
 
 # Dependency directories
 jspm_packages/
