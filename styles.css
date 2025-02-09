@@ -2,6 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 body {
@@ -19,6 +23,7 @@ body {
     position: relative;
     cursor: pointer;
     overflow: hidden;
+    touch-action: none;
     background: linear-gradient(135deg, 
         #7aa352 0%,
         #90b565 35%,
@@ -252,6 +257,7 @@ body {
     z-index: 1;
 }
 
+/* Game header (contains tooltip) */
 .game-header {
     position: fixed;
     top: 0;
@@ -260,12 +266,11 @@ body {
     padding: 15px;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+    z-index: 1000; /* Increased z-index */
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 4px solid #654321;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .score-container {
@@ -279,6 +284,7 @@ body {
     font-weight: bold;
 }
 
+/* Center content (play game area) */
 .center-content {
     position: fixed;
     top: 50%;
@@ -289,7 +295,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
                 0 0 0 10px rgba(101, 67, 33, 0.3);
-    z-index: 200;
+    z-index: 900; /* Lower than game header */
     width: 90%;
     max-width: 500px;
     max-height: 90vh;
@@ -323,25 +329,29 @@ h1 {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    animation: clickRipple 0.5s ease-out;
     pointer-events: none;
     z-index: 1;
+    animation: clickRipple 0.6s ease-out;
 }
 
 .click-feedback.very-hot {
-    background: radial-gradient(circle, rgba(255, 0, 0, 0.4) 0%, rgba(255, 0, 0, 0) 70%);
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.6) 0%, rgba(255, 0, 0, 0) 70%);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
 }
 
 .click-feedback.hot {
-    background: radial-gradient(circle, rgba(255, 165, 0, 0.4) 0%, rgba(255, 165, 0, 0) 70%);
+    background: radial-gradient(circle, rgba(255, 165, 0, 0.6) 0%, rgba(255, 165, 0, 0) 70%);
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
 }
 
 .click-feedback.warm {
-    background: radial-gradient(circle, rgba(255, 255, 0, 0.4) 0%, rgba(255, 255, 0, 0) 70%);
+    background: radial-gradient(circle, rgba(255, 255, 0, 0.6) 0%, rgba(255, 255, 0, 0) 70%);
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.4);
 }
 
 .click-feedback.cold {
-    background: radial-gradient(circle, rgba(0, 191, 255, 0.4) 0%, rgba(0, 191, 255, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, rgba(0, 191, 255, 0) 70%);
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);
 }
 
 .social-share {
@@ -384,7 +394,7 @@ h1 {
 
 @keyframes clickRipple {
     0% {
-        transform: scale(0);
+        transform: scale(0.3);
         opacity: 1;
     }
     100% {
@@ -511,6 +521,63 @@ button:active {
 
     .feature-list {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Tablet-specific adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .game-header {
+        padding: 12px;
+    }
+
+    .score-container {
+        gap: 15px;
+    }
+}
+
+/* Foldable devices in folded state */
+@media (max-width: 320px) {
+    .game-header {
+        padding: 8px;
+    }
+
+    .score-container {
+        gap: 8px;
+        font-size: 0.85em;
+    }
+
+    .timer {
+        font-size: 1em;
+    }
+}
+
+/* iPad and larger tablets in landscape */
+@media (min-width: 1024px) and (max-height: 768px) {
+    .game-header {
+        padding: 10px 20px;
+    }
+}
+
+/* Support for ultra-wide screens */
+@media (min-width: 1400px) {
+    .game-header {
+        padding: 15px 30px;
+    }
+
+    .score-container {
+        gap: 30px;
+        font-size: 1.1em;
+    }
+}
+
+/* Handle device orientation changes */
+@media (orientation: landscape) and (max-height: 500px) {
+    .game-header {
+        padding: 8px 15px;
+    }
+
+    .score-container {
+        font-size: 0.9em;
     }
 }
 
@@ -785,6 +852,7 @@ button:active {
 .tooltip-container {
     position: relative;
     margin-left: 12px;
+    z-index: 1100; /* Higher than game header */
 }
 
 /* Tooltip icon */
@@ -801,12 +869,41 @@ button:active {
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .tooltip-icon:hover {
     transform: scale(1.1);
     background-color: #45a049;
+}
+
+.tooltip-icon:active {
+    transform: scale(0.95);
+}
+
+/* Tooltip ripple effect */
+.tooltip-icon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    transform: scale(1);
+    animation: tooltipPulse 2s ease-out infinite;
+}
+
+@keyframes tooltipPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
 }
 
 /* Tooltip text */
@@ -821,21 +918,21 @@ button:active {
     top: 35px;
     right: -10px;
     width: 250px;
-    z-index: 200;
+    z-index: 1100; /* Same as tooltip container */
     font-size: 0.9em;
     line-height: 1.4;
+    animation: tooltipFadeIn 0.3s ease-out;
 }
 
-.tooltip-text::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    right: 15px;
-    width: 12px;
-    height: 12px;
-    background: white;
-    transform: rotate(45deg);
-    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.06);
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Show tooltip text on hover */
