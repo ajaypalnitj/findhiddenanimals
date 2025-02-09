@@ -104,9 +104,18 @@ body {
     pointer-events: none;
 }
 
-/* Trees with natural variation */
+/* Enhanced 3D Trees */
 .tree {
     position: absolute;
+    transform-style: preserve-3d;
+    transform-origin: center bottom;
+}
+
+.tree::before {  /* Tree crown */
+    content: '';
+    position: absolute;
+    width: 45px;
+    height: 45px;
     background: radial-gradient(
         circle at 50% 50%,
         #2d5a27 0%,
@@ -116,48 +125,126 @@ body {
     box-shadow: 
         0 5px 15px rgba(0, 0, 0, 0.2),
         0 0 0 8px rgba(45, 90, 39, 0.4);
-    transform-origin: center bottom;
+    transform: translateZ(5px);
 }
 
-.tree:nth-child(1) { width: 45px; height: 45px; top: 15%; right: 20%; }
-.tree:nth-child(2) { width: 35px; height: 35px; top: 18%; right: 23%; }
-.tree:nth-child(3) { width: 40px; height: 40px; top: 16%; right: 26%; }
-.tree:nth-child(4) { width: 38px; height: 38px; bottom: 25%; left: 18%; }
-.tree:nth-child(5) { width: 42px; height: 42px; bottom: 28%; left: 22%; }
-
-/* Natural pond */
-.pond {
-    position: absolute;
-    width: 120px;
-    height: 90px;
-    background: radial-gradient(
-        ellipse at center,
-        #4fa3d1 0%,
-        #3d8eb8 60%,
-        #2d7aa0 100%
-    );
-    border-radius: 60%/50%;
-    bottom: 30%;
-    left: 15%;
-    transform: rotate(15deg);
-    box-shadow: 
-        inset 0 0 20px rgba(0, 0, 0, 0.3),
-        0 2px 8px rgba(0, 0, 0, 0.2);
-    opacity: 0.9;
-}
-
-.pond::after {
+.tree::after {  /* Tree trunk shadow */
     content: '';
     position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    background: 
-        linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2)),
-        linear-gradient(-45deg, transparent, rgba(255, 255, 255, 0.1));
-    border-radius: inherit;
+    width: 10px;
+    height: 15px;
+    background: #3d2616;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotateX(60deg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+/* Tree variations */
+.tree:nth-child(1) { top: 15%; right: 20%; transform: scale(1.2) rotateX(45deg); }
+.tree:nth-child(2) { top: 25%; right: 35%; transform: scale(0.9) rotateX(45deg); }
+.tree:nth-child(3) { top: 40%; left: 25%; transform: scale(1.1) rotateX(45deg); }
+.tree:nth-child(4) { bottom: 30%; left: 40%; transform: scale(0.8) rotateX(45deg); }
+.tree:nth-child(5) { bottom: 20%; right: 30%; transform: scale(1) rotateX(45deg); }
+
+/* 3D Flowers */
+.flower {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    transform-style: preserve-3d;
+}
+
+.flower::before {  /* Flower petals */
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        #ff69b4 0%,
+        #ff1493 100%
+    );
+    border-radius: 50%;
+    transform: translateZ(3px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.flower::after {  /* Flower center */
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) translateZ(4px);
+}
+
+/* Flower variations */
+.flower:nth-child(1) { top: 30%; left: 15%; }
+.flower:nth-child(2) { top: 45%; right: 25%; }
+.flower:nth-child(3) { bottom: 35%; left: 35%; }
+.flower:nth-child(4) { bottom: 25%; right: 15%; }
+.flower:nth-child(5) { top: 20%; left: 45%; }
+
+/* 3D Wooden Bench */
+.wooden-bench {
+    position: absolute;
+    width: 60px;
+    height: 25px;
+    transform-style: preserve-3d;
+    transform: rotateX(60deg) rotateZ(-15deg);
+}
+
+.wooden-bench::before {  /* Bench seat */
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #8B4513, #A0522D);
+    border-radius: 4px;
+    transform: translateZ(10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.wooden-bench::after {  /* Bench legs */
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    background: #654321;
+    bottom: -15px;
+    left: 5px;
+    box-shadow: 
+        40px 0 0 #654321,
+        0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateZ(5px);
+}
+
+/* Bench positions */
+.wooden-bench:nth-child(1) { top: 30%; right: 15%; }
+.wooden-bench:nth-child(2) { bottom: 25%; left: 20%; transform: rotateX(60deg) rotateZ(15deg); }
+
+/* Grass patches for depth */
+.grass-patch {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(
+        circle at center,
+        rgba(106, 176, 76, 0.4) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    transform: rotateX(60deg);
+}
+
+/* Random grass patches */
+.grass-patch:nth-child(1) { top: 20%; left: 30%; }
+.grass-patch:nth-child(2) { top: 40%; right: 40%; }
+.grass-patch:nth-child(3) { bottom: 30%; left: 45%; }
+.grass-patch:nth-child(4) { bottom: 25%; right: 25%; }
 
 /* Hay bales with natural placement */
 .hay-bale {
