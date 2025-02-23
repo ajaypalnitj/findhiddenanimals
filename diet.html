@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal Fact Cards - Learn Fun Animal Facts | Find Hidden Animals</title>
+    <title>Animal Diet Match - Learn What Animals Eat | Find Hidden Animals</title>
     
     <!-- Primary Meta Tags -->
-    <meta name="description" content="Match animals with their fascinating facts in this fun memory game! Learn interesting facts about farm animals while testing your memory.">
-    <meta name="keywords" content="animal facts, memory game, educational game, farm animals, animal trivia, kids game, learning game">
+    <meta name="description" content="Match animals with their diets in this fun educational game! Learn what different animals eat while testing your memory.">
+    <meta name="keywords" content="animal diets, memory game, educational game, farm animals, animal food, kids game, learning game">
     <meta name="author" content="Find Hidden Animals">
     <meta name="robots" content="index, follow">
     
@@ -26,9 +26,9 @@
                     <div class="dropdown-content">
                         <a href="/">Find Animals</a>
                         <a href="/flashcards.html">Sound Cards</a>
-                        <a href="/factcards.html" class="active">Fact Cards</a>
+                        <a href="/factcards.html">Fact Cards</a>
                         <a href="/habitat.html">Habitat Match</a>
-                        <a href="/diet.html">Diet Match</a>
+                        <a href="/diet.html" class="active">Diet Match</a>
                     </div>
                 </div>
             </div>
@@ -52,8 +52,8 @@
 
             <!-- Start Screen -->
             <div id="start-screen" class="center-screen">
-                <h1>Animal Fact Cards</h1>
-                <p>Match the animals with their interesting facts!</p>
+                <h1>Animal Diet Match</h1>
+                <p>Match the animals with their favorite foods!</p>
                 <div class="difficulty-selector">
                     <button id="easy-mode" class="mode-btn active">Easy (60s)</button>
                     <button id="hard-mode" class="mode-btn">Hard (30s)</button>
@@ -77,11 +77,22 @@
                 <p id="end-message"></p>
                 <p>Score: <span id="final-score">0</span></p>
                 <p>Best: <span id="final-high-score">0</span></p>
+                <div class="social-share">
+                    <button class="share-btn twitter">
+                        <i class="fab fa-x-twitter"></i> Share
+                    </button>
+                    <button class="share-btn facebook">
+                        <i class="fab fa-facebook"></i> Share
+                    </button>
+                    <button class="share-btn copy-link">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                </div>
                 <button id="play-again" class="game-button">Play Again</button>
             </div>
         </div>
     </div>
 
-    <script type="module" src="factcards.js"></script>
+    <script type="module" src="diet.js"></script>
 </body>
 </html> 

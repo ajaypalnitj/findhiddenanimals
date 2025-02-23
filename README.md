@@ -22,6 +22,18 @@ A collection of fun and educational browser-based games featuring farm animals! 
 - Educational and entertaining
 - Easy and Hard modes with time bonuses
 
+### 4. Habitat Match
+- Match animals with their natural habitats
+- Learn where different animals live
+- Beautiful habitat illustrations with descriptions
+- Progressive difficulty with time bonuses
+
+### 5. Diet Match
+- Match animals with their dietary preferences
+- Learn about herbivores and omnivores
+- Discover what each animal likes to eat
+- Challenging gameplay with score multipliers
+
 ## 🚀 Features
 
 - Responsive design works on all devices

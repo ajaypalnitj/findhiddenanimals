@@ -185,6 +185,71 @@ const ANIMALS = {
     }
 };
 
+const ANIMAL_HABITATS = {
+    cow: {
+        name: "Farm Pasture",
+        description: "Open grassland with fresh grass and plenty of space to graze",
+        icon: "🌾"
+    },
+    sheep: {
+        name: "Rolling Hills",
+        description: "Grassy hillsides with moderate climate",
+        icon: "⛰️"
+    },
+    chicken: {
+        name: "Farmyard",
+        description: "Protected area with access to seeds and insects",
+        icon: "🏡"
+    },
+    pig: {
+        name: "Muddy Ground",
+        description: "Soft earth with mud wallows for cooling",
+        icon: "💧"
+    },
+    horse: {
+        name: "Open Plains",
+        description: "Wide open spaces with grass and room to run",
+        icon: "🏃"
+    }
+};
+
+const ANIMAL_DIETS = {
+    cow: {
+        type: "Herbivore",
+        foods: ["Grass", "Hay", "Grain"],
+        icon: "🌿"
+    },
+    sheep: {
+        type: "Herbivore",
+        foods: ["Grass", "Clover", "Hay"],
+        icon: "🌿"
+    },
+    chicken: {
+        type: "Omnivore",
+        foods: ["Seeds", "Insects", "Grain"],
+        icon: "🌾"
+    },
+    pig: {
+        type: "Omnivore",
+        foods: ["Vegetables", "Fruits", "Grain"],
+        icon: "🥕"
+    },
+    horse: {
+        type: "Herbivore",
+        foods: ["Grass", "Hay", "Apples"],
+        icon: "🌿"
+    }
+};
+
+// Update ANIMALS object with new information
+Object.entries(ANIMALS).forEach(([key, animal]) => {
+    ANIMALS[key] = {
+        ...animal,
+        habitat: ANIMAL_HABITATS[key],
+        diet: ANIMAL_DIETS[key]
+    };
+});
+
 // Progress tracking functions
 const Progress = {
     getFinds: (animal) => {
@@ -237,4 +302,4 @@ const Progress = {
     }
 };
 
-export { ANIMALS, Progress, ANIMAL_FACTS_CLEAN }; 
+export { ANIMALS, Progress, ANIMAL_FACTS_CLEAN, ANIMAL_HABITATS, ANIMAL_DIETS }; 
