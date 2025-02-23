@@ -588,23 +588,26 @@ let lastScrollY = window.scrollY;
 const nav = document.querySelector('.game-nav');
 const footer = document.querySelector('.site-footer');
 
-window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
-    
-    // Header behavior - hide on scroll down, show on scroll up
-    if (currentScrollY > lastScrollY) {
-        nav.classList.add('nav-hidden');
-    } else {
-        nav.classList.remove('nav-hidden');
-    }
-    
-    // Footer behavior - show only when scrolled to bottom
-    const isAtBottom = window.innerHeight + currentScrollY >= document.documentElement.scrollHeight;
-    if (isAtBottom) {
-        footer.classList.remove('footer-hidden');
-    } else {
-        footer.classList.add('footer-hidden');
-    }
-    
-    lastScrollY = currentScrollY;
+// Initialize scroll behavior after DOM content is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        
+        // Header behavior - hide on scroll down, show on scroll up
+        if (currentScrollY > lastScrollY) {
+            nav?.classList.add('nav-hidden');
+        } else {
+            nav?.classList.remove('nav-hidden');
+        }
+        
+        // Footer behavior - show only when scrolled to bottom
+        const isAtBottom = window.innerHeight + currentScrollY >= document.documentElement.scrollHeight;
+        if (isAtBottom) {
+            footer?.classList.remove('footer-hidden');
+        } else {
+            footer?.classList.add('footer-hidden');
+        }
+        
+        lastScrollY = currentScrollY;
+    });
 }); 
