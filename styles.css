@@ -321,6 +321,54 @@ body {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    .game-nav {
+        height: 40px;
+    }
+
+    .nav-content {
+        padding: 0 15px;
+    }
+
+    .nav-logo {
+        font-size: 1.1em;
+    }
+
+    .dropbtn {
+        font-size: 1em;
+        padding: 8px 12px;
+    }
+
+    .dropdown-content {
+        min-width: 160px;
+        top: 38px;
+    }
+
+    .dropdown-content a {
+        font-size: 1em;
+        padding: 12px 16px;
+    }
+
+    .game-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .game-btn {
+        width: 100%;
+        max-width: 300px;
+        padding: 15px 30px;
+        font-size: 1.1em;
+        margin: 0;
+    }
+
     .cow {
         width: 50px;
         height: 50px;
