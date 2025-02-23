@@ -51,10 +51,6 @@ pids
 *.pid.lock
 
 # Generated files
-*.png
-*.jpg
-*.jpeg
-*.gif
 !animals/**/*.png
 !cow.png
 !cow-share.png
