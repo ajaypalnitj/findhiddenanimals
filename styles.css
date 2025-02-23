@@ -1324,66 +1324,103 @@ button:active {
     }
     
     .flashcard-container .game-header {
-        padding: 15px;
+        padding: 12px;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
         text-align: center;
     }
     
     .flashcard-container .score-info {
-        font-size: 1.2em;
+        font-size: 1em;
         justify-content: center;
         gap: 15px;
     }
     
     .flashcard-container .timer {
-        font-size: 1.2em;
+        font-size: 1em;
     }
 
     .card {
-        height: 220px !important;  /* Override any other height settings */
+        height: 180px !important;
     }
 
     .card-front i {
-        font-size: 2.5em !important;
-    }
-
-    .card-back {
-        font-size: 1.1em !important;
-    }
-
-    .animal-name {
-        font-size: 1.3em !important;
-        margin-top: 10px;
-    }
-
-    .diet-foods, .habitat-desc, .fact-text {
-        font-size: 1.1em !important;
-        max-height: 120px !important;
-    }
-
-    .game-button, #restart-button {
-        font-size: 1.2em !important;
-        padding: 15px 30px !important;
-        min-width: 200px;
-    }
-
-    .mode-btn {
-        font-size: 1.1em !important;
-        padding: 12px 24px !important;
-    }
-
-    h1 {
         font-size: 2em !important;
     }
 
-    .mode-description p {
+    .card-back {
+        font-size: 1em !important;
+    }
+
+    .animal-name {
         font-size: 1.1em !important;
+        margin-top: 8px;
+    }
+
+    .diet-foods, .habitat-desc, .fact-text {
+        font-size: 0.95em !important;
+        max-height: 100px !important;
+    }
+
+    .game-button, #restart-button {
+        font-size: 1em !important;
+        padding: 12px 24px !important;
+    }
+
+    .mode-btn {
+        font-size: 1em !important;
+        padding: 10px 20px !important;
+    }
+
+    h1 {
+        font-size: 1.8em !important;
+    }
+
+    .mode-description p {
+        font-size: 1em !important;
     }
 
     .share-btn {
-        font-size: 1.1em !important;
-        padding: 15px 25px !important;
+        font-size: 1em !important;
+        padding: 12px 20px !important;
+    }
+
+    /* Header scroll behavior */
+    .game-nav {
+        transition: transform 0.3s ease;
+    }
+
+    .game-nav.nav-hidden {
+        transform: translateY(-100%);
+    }
+
+    /* Footer adjustments */
+    .site-footer {
+        position: relative;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+        padding: 15px 0;
+    }
+
+    .site-footer.footer-hidden {
+        transform: translateY(100%);
+    }
+
+    .footer-content {
+        padding: 0 15px;
+    }
+
+    .footer-links {
+        font-size: 0.9em;
+        gap: 15px;
+    }
+
+    .copyright {
+        font-size: 0.8em;
+    }
+
+    body {
+        padding-bottom: 0;
     }
 }
 
@@ -1429,4 +1466,32 @@ button:active {
         padding-left: 15px;
         padding-right: 15px;
     }
-} 
+}
+
+/* Add scroll behavior script */
+<script>
+let lastScrollY = window.scrollY;
+const nav = document.querySelector('.game-nav');
+const footer = document.querySelector('.site-footer');
+
+window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    
+    // Header behavior - hide on scroll down, show on scroll up
+    if (currentScrollY > lastScrollY) {
+        nav.classList.add('nav-hidden');
+    } else {
+        nav.classList.remove('nav-hidden');
+    }
+    
+    // Footer behavior - show only when scrolled to bottom
+    const isAtBottom = window.innerHeight + currentScrollY >= document.documentElement.scrollHeight;
+    if (isAtBottom) {
+        footer.classList.remove('footer-hidden');
+    } else {
+        footer.classList.add('footer-hidden');
+    }
+    
+    lastScrollY = currentScrollY;
+});
+</script> 
