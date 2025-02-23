@@ -239,6 +239,23 @@ class FactCardGame {
         
         this.gameScreen.classList.add('hidden');
         this.endScreen.classList.remove('hidden');
+
+        // Setup share buttons
+        const difficultyText = this.difficulty === 'easy' ? 'Easy Mode' : 'Hard Mode';
+        const shareText = `I scored ${this.score} points in Animal Fact Cards (${difficultyText})! Can you beat my score? 🎮 Play now at`;
+        const shareUrl = 'https://findhiddenanimals.com/factcards.html';
+
+        // Twitter share
+        document.querySelector('.twitter').addEventListener('click', () => {
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+            window.open(twitterUrl, '_blank');
+        });
+
+        // Facebook share
+        document.querySelector('.facebook').addEventListener('click', () => {
+            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+            window.open(facebookUrl, '_blank');
+        });
     }
 }
 
