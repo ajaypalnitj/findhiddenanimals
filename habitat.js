@@ -46,23 +46,6 @@ class HabitatGame {
         document.getElementById('hard-description').classList.toggle('hidden', !isHard);
     }
 
-    shareOnTwitter() {
-        const text = `I matched ${this.matchedPairs} animal habitats and scored ${this.score} points in Habitat Match! Can you beat my score?`;
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`);
-    }
-
-    shareOnFacebook() {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`);
-    }
-
-    copyLink() {
-        const text = `I matched ${this.matchedPairs} animal habitats and scored ${this.score} points in Habitat Match! Try to beat my score at:`;
-        const shareText = `${text}\n${window.location.href}`;
-        navigator.clipboard.writeText(shareText).then(() => {
-            alert('Link copied to clipboard!');
-        });
-    }
-
     startGame() {
         if (this.timer) {
             clearInterval(this.timer);
@@ -103,7 +86,7 @@ class HabitatGame {
         animals.forEach(([key, animal]) => {
             cardPairs.push({
                 type: 'animal',
-                content: `<img src="${animal.sprite}" alt="${animal.name}"><div>${animal.name}</div>`,
+                content: `<img src="${animal.sprite}" alt="${animal.name}"><div class="animal-name">${animal.name}</div>`,
                 match: animal.name
             });
 
@@ -125,7 +108,9 @@ class HabitatGame {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
             cardElement.innerHTML = `
-                <div class="card-front"><i class="fas fa-question"></i></div>
+                <div class="card-front">
+                    <i class="fas ${card.type === 'animal' ? 'fa-paw' : 'fa-home'}"></i>
+                </div>
                 <div class="card-back">${card.content}</div>
             `;
             cardElement.dataset.index = index;
@@ -243,6 +228,23 @@ class HabitatGame {
         
         this.gameScreen.classList.add('hidden');
         this.endScreen.classList.remove('hidden');
+    }
+
+    shareOnTwitter() {
+        const text = `I matched ${this.matchedPairs} animal habitats and scored ${this.score} points in Habitat Match! Can you beat my score?`;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`);
+    }
+
+    shareOnFacebook() {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`);
+    }
+
+    copyLink() {
+        const text = `I matched ${this.matchedPairs} animal habitats and scored ${this.score} points in Habitat Match! Try to beat my score at:`;
+        const shareText = `${text}\n${window.location.href}`;
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert('Link copied to clipboard!');
+        });
     }
 }
 

@@ -28,6 +28,11 @@ class FlashCardGame {
         document.getElementById('easy-mode').addEventListener('click', () => this.setDifficulty(false));
         document.getElementById('hard-mode').addEventListener('click', () => this.setDifficulty(true));
 
+        // Add share button listeners
+        document.querySelector('.twitter').addEventListener('click', () => this.shareOnTwitter());
+        document.querySelector('.facebook').addEventListener('click', () => this.shareOnFacebook());
+        document.querySelector('.copy-link').addEventListener('click', () => this.copyLink());
+
         // Initialize display
         this.updateScore();
         this.preloadSounds();
@@ -236,6 +241,23 @@ class FlashCardGame {
         
         this.gameScreen.classList.add('hidden');
         this.endScreen.classList.remove('hidden');
+    }
+
+    shareOnTwitter() {
+        const text = `I matched ${this.matchedPairs} animal sounds and scored ${this.score} points in Sound Cards! Can you beat my score?`;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`);
+    }
+
+    shareOnFacebook() {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`);
+    }
+
+    copyLink() {
+        const text = `I matched ${this.matchedPairs} animal sounds and scored ${this.score} points in Sound Cards! Try to beat my score at:`;
+        const shareText = `${text}\n${window.location.href}`;
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert('Link copied to clipboard!');
+        });
     }
 }
 

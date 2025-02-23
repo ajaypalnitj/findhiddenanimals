@@ -103,7 +103,7 @@ class DietGame {
         animals.forEach(([key, animal]) => {
             cardPairs.push({
                 type: 'animal',
-                content: `<img src="${animal.sprite}" alt="${animal.name}"><div>${animal.name}</div>`,
+                content: `<img src="${animal.sprite}" alt="${animal.name}"><div class="animal-name">${animal.name}</div>`,
                 match: animal.name
             });
 
@@ -125,7 +125,9 @@ class DietGame {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
             cardElement.innerHTML = `
-                <div class="card-front"><i class="fas fa-question"></i></div>
+                <div class="card-front">
+                    <i class="fas ${card.type === 'animal' ? 'fa-paw' : 'fa-utensils'}"></i>
+                </div>
                 <div class="card-back">${card.content}</div>
             `;
             cardElement.dataset.index = index;

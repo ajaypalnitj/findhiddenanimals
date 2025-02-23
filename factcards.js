@@ -81,7 +81,7 @@ class FactCardGame {
         animals.forEach(([key, animal]) => {
             cardPairs.push({
                 type: 'animal',
-                content: `<img src="${animal.sprite}" alt="${animal.name}"><div>${animal.name}</div>`,
+                content: `<img src="${animal.sprite}" alt="${animal.name}"><div class="animal-name">${animal.name}</div>`,
                 match: animal.name
             });
 
@@ -89,7 +89,7 @@ class FactCardGame {
             const fact = facts[Math.floor(Math.random() * facts.length)];
             cardPairs.push({
                 type: 'fact',
-                content: `<div class="fact-card">${fact}</div>`,
+                content: `<div class="fact-card"><div class="fact-text">${fact}</div></div>`,
                 match: animal.name
             });
         });
@@ -100,7 +100,9 @@ class FactCardGame {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
             cardElement.innerHTML = `
-                <div class="card-front"><i class="fas fa-question"></i></div>
+                <div class="card-front">
+                    <i class="fas ${card.type === 'animal' ? 'fa-paw' : 'fa-book'}"></i>
+                </div>
                 <div class="card-back">${card.content}</div>
             `;
             cardElement.dataset.index = index;

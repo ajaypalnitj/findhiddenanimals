@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Magnifying Glass -->
+    <g transform="translate(10, 10) scale(0.8)">
+        <circle cx="20" cy="20" r="12" stroke="#4CAF50" stroke-width="4" fill="white"/>
+        <line x1="29" y1="29" x2="38" y2="38" stroke="#4CAF50" stroke-width="4" stroke-linecap="round"/>
+        <!-- Paw print inside glass -->
+        <circle cx="17" cy="17" r="2" fill="#4CAF50"/>
+        <circle cx="23" cy="17" r="2" fill="#4CAF50"/>
+        <circle cx="20" cy="22" r="2" fill="#4CAF50"/>
+        <path d="M16 24 C18 26, 22 26, 24 24" stroke="#4CAF50" stroke-width="2" fill="none"/>
+    </g>
+    
+    <!-- Text "Find" -->
+    <text x="55" y="30" font-family="Arial" font-weight="bold" font-size="20" fill="#333333">
+        Find
+    </text>
+    
+    <!-- Text "Hidden" with playful effect -->
+    <text x="95" y="30" font-family="Arial" font-weight="bold" font-size="20">
+        <tspan fill="#4CAF50">H</tspan>
+        <tspan fill="#333333">idden</tspan>
+    </text>
+    
+    <!-- Text "Animals" with paw dot -->
+    <text x="160" y="30" font-family="Arial" font-weight="bold" font-size="20" fill="#333333">
+        Animals
+    </text>
+    
+    <!-- Small decorative paw prints -->
+    <g transform="translate(150, 15) scale(0.3) rotate(-15)">
+        <circle cx="17" cy="17" r="2" fill="#4CAF50"/>
+        <circle cx="23" cy="17" r="2" fill="#4CAF50"/>
+        <circle cx="20" cy="22" r="2" fill="#4CAF50"/>
+        <path d="M16 24 C18 26, 22 26, 24 24" stroke="#4CAF50" stroke-width="2" fill="none"/>
+    </g>
+</svg> 

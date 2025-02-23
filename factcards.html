@@ -46,50 +46,18 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3258962387253075"
      crossorigin="anonymous"></script>
     
-    <!-- JSON-LD for structured data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Game",
-        "name": "Animal Fact Cards",
-        "description": "An educational memory game where players learn interesting facts about farm animals",
-        "genre": ["Educational", "Memory", "Kids"],
-        "gamePlatform": "Browser",
-        "applicationCategory": "Browser Game",
-        "operatingSystem": "Any",
-        "url": "https://findhiddenanimals.com/factcards.html",
-        "author": {
-            "@type": "Organization",
-            "name": "Find Hidden Animals"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "educationalUse": ["Learning", "Memory Training"],
-        "audience": {
-            "@type": "EducationalAudience",
-            "educationalRole": "All"
-        },
-        "learningResourceType": "Game",
-        "educationalLevel": "All"
-    }
-    </script>
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://findhiddenanimals.com/factcards.html">
-    
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="factcards.css">
+    <link rel="stylesheet" href="flashcards.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="game-nav">
         <div class="nav-content">
-            <a href="/" class="nav-logo">Find Hidden Animals</a>
+            <a href="/" class="nav-logo">
+                <img src="find-animals-logo.png" alt="Find Hidden Animals Logo" width="200" height="32">
+            </a>
             <div class="nav-links">
                 <div class="dropdown">
                     <button class="dropbtn">Games ▾</button>
@@ -147,10 +115,34 @@
                 <p id="end-message"></p>
                 <p>Score: <span id="final-score">0</span></p>
                 <p>Best: <span id="final-high-score">0</span></p>
+                <div class="social-share">
+                    <button class="share-btn twitter">
+                        <i class="fab fa-x-twitter"></i> Share
+                    </button>
+                    <button class="share-btn facebook">
+                        <i class="fab fa-facebook"></i> Share
+                    </button>
+                    <button class="share-btn copy-link">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                </div>
                 <button id="play-again" class="game-button">Play Again</button>
             </div>
         </div>
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="/about.html">About</a>
+            </div>
+            <div class="copyright">
+                © 2025 Find Hidden Animals. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
     <script type="module" src="factcards.js"></script>
 </body>
