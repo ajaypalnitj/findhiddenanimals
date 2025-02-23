@@ -1,9 +1,21 @@
 # Allow all crawlers
 User-agent: *
 Allow: /
+Allow: /flashcards.html
+Allow: /factcards.html
+Allow: /about.html
+Allow: /privacy.html
+Allow: /terms.html
 
 # Sitemap location
 Sitemap: https://findhiddenanimals.com/sitemap.xml
+
+# Optimize crawling
+Crawl-delay: 10
+
+# Prevent caching of game assets
+Disallow: /animals/sounds/
+Disallow: /animals/sprites/
 
 # Disallow minified files
 Disallow: /*.min.js$

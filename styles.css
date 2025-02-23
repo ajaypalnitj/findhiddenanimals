@@ -347,7 +347,7 @@ body {
 /* Game header (contains tooltip) */
 .game-header {
     position: fixed;
-    top: 0;
+    top: 60px;
     left: 0;
     right: 0;
     padding: 15px;
@@ -1025,4 +1025,127 @@ button:active {
 /* Show tooltip text on hover */
 .tooltip-container:hover .tooltip-text {
     display: block;
+}
+
+/* Navigation Menu */
+.game-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    z-index: 1000;
+    height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    z-index: 1001;
+    margin-top: 2px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.game-btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#change-animal {
+    background-color: #2196F3;
+}
+
+#more-games {
+    background-color: #9C27B0;
+}
+
+@media (max-width: 480px) {
+    .game-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .game-btn {
+        width: 100%;
+        padding: 12px;
+    }
 } 

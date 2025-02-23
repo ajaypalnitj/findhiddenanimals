@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Fact Cards - Learn Fun Animal Facts | Find Hidden Animals</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Match animals with their fascinating facts in this fun memory game! Learn interesting facts about farm animals while testing your memory.">
+    <meta name="keywords" content="animal facts, memory game, educational game, farm animals, animal trivia, kids game, learning game">
+    <meta name="author" content="Find Hidden Animals">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="flashcards.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="game-nav">
+        <div class="nav-content">
+            <a href="/" class="nav-logo">Find Hidden Animals</a>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <button class="dropbtn">Games ▾</button>
+                    <div class="dropdown-content">
+                        <a href="/">Find Animals</a>
+                        <a href="/flashcards.html">Sound Cards</a>
+                        <a href="/factcards.html" class="active">Fact Cards</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Game Container -->
+    <div class="flashcard-container">
+        <div class="game-area">
+            <div class="game-header">
+                <div class="score-info">
+                    <span>Score: <span id="score">0</span></span>
+                    <span>Best: <span id="high-score">0</span></span>
+                </div>
+                <div class="timer">Time: <span id="timer">30</span>s</div>
+                <div class="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div id="start-screen" class="center-screen">
+                <h1>Animal Fact Cards</h1>
+                <p>Match the animals with their interesting facts!</p>
+                <div class="difficulty-selector">
+                    <button id="easy-mode" class="mode-btn active">Easy Mode (60s)</button>
+                    <button id="hard-mode" class="mode-btn">Hard Mode (30s)</button>
+                </div>
+                <div class="mode-description">
+                    <p id="easy-description">
+                        Easy Mode: 60 seconds to match all pairs.<br>
+                        Bonus points for remaining time!
+                    </p>
+                    <p id="hard-description" class="hidden">
+                        Hard Mode: 30 seconds to match all pairs.<br>
+                        Double points for matches!
+                    </p>
+                </div>
+                <button id="start-button" class="game-button">Start Game</button>
+            </div>
+
+            <div id="game-screen" class="hidden">
+                <div class="cards-grid">
+                    <!-- Cards will be added here dynamically -->
+                </div>
+                <div class="game-controls">
+                    <button id="restart-button" class="game-button">Restart Game</button>
+                </div>
+            </div>
+
+            <div id="end-screen" class="center-screen hidden">
+                <h2>Game Over!</h2>
+                <p id="end-message"></p>
+                <p>Your Score: <span id="final-score">0</span></p>
+                <p>High Score: <span id="final-high-score">0</span></p>
+                <button id="play-again" class="game-button">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="factcards.js"></script>
+</body>
+</html> 

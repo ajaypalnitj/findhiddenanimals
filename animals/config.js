@@ -40,6 +40,48 @@ const ANIMAL_FACTS = {
     ]
 };
 
+const ANIMAL_FACTS_CLEAN = {
+    cow: [
+        "Can sleep while standing up",
+        "Makes 40,000 jaw movements a day",
+        "Can climb up stairs but not down",
+        "Has best friends and gets stressed when separated",
+        "Can smell things up to 6 miles away",
+        "Has 360-degree panoramic vision",
+        "Has a unique nose print, like human fingerprints",
+        "Can recognize over 100 faces in their herd",
+        "Is an excellent swimmer"
+    ],
+    sheep: [
+        "Can remember up to 50 faces for over 2 years",
+        "The wool never stops growing",
+        "Has rectangular pupils giving 320° vision",
+        "Can walk within minutes of being born",
+        "As intelligent as dogs and can solve problems"
+    ],
+    chicken: [
+        "Can remember over 100 different faces",
+        "Dreams just like humans do",
+        "Communicates with babies while still in the egg",
+        "Can run up to 9 miles per hour",
+        "Has better color vision than humans"
+    ],
+    pig: [
+        "Considered the 4th most intelligent animal",
+        "Can run at speeds of up to 11mph",
+        "Dreams just like humans do",
+        "Can make sounds as loud as 115 decibels",
+        "Is an excellent swimmer"
+    ],
+    horse: [
+        "Can sleep both lying down and standing up",
+        "Can run shortly after birth",
+        "Has nearly 360-degree vision",
+        "Brain weighs half as much as a human brain",
+        "Cannot breathe through the mouth"
+    ]
+};
+
 const ANIMALS = {
     cow: {
         name: 'Cow',
@@ -51,14 +93,14 @@ const ANIMALS = {
             found: 'animals/cow/sounds/moo.mp3'
         },
         size: { width: 100, height: 100 },
-        unlockRequirement: 0, // Available from start
+        unlockRequirement: 0,
         difficulty: {
             moveSpeed: 0,
             searchRadius: 50,
             scoreMultiplier: 1,
-            soundRange: { min: 0.02, max: 1 } // Increased sound range
+            soundRange: { min: 0.02, max: 1 }
         },
-        background: '#87CEEB', // Sky blue
+        background: '#87CEEB',
         facts: ANIMAL_FACTS.cow
     },
     sheep: {
@@ -71,7 +113,7 @@ const ANIMALS = {
             found: 'animals/sheep/sounds/baa.mp3'
         },
         size: { width: 90, height: 90 },
-        unlockRequirement: 5, // Need 5 cow finds
+        unlockRequirement: 5,
         difficulty: {
             moveSpeed: 0.1,
             searchRadius: 45,
@@ -91,7 +133,7 @@ const ANIMALS = {
             found: 'animals/chicken/sounds/cluck.mp3'
         },
         size: { width: 70, height: 70 },
-        unlockRequirement: 5, // Need 5 sheep finds
+        unlockRequirement: 5,
         difficulty: {
             moveSpeed: 0,
             searchRadius: 35,
@@ -111,7 +153,7 @@ const ANIMALS = {
             found: 'animals/pig/sounds/oink.mp3'
         },
         size: { width: 85, height: 85 },
-        unlockRequirement: 5, // Need 5 chicken finds
+        unlockRequirement: 5,
         difficulty: {
             moveSpeed: 0.2,
             searchRadius: 40,
@@ -131,7 +173,7 @@ const ANIMALS = {
             found: 'animals/horse/sounds/neigh.mp3'
         },
         size: { width: 110, height: 110 },
-        unlockRequirement: 5, // Need 5 pig finds
+        unlockRequirement: 5,
         difficulty: {
             moveSpeed: 0.3,
             searchRadius: 30,
@@ -195,4 +237,4 @@ const Progress = {
     }
 };
 
-export { ANIMALS, Progress }; 
+export { ANIMALS, Progress, ANIMAL_FACTS_CLEAN }; 
