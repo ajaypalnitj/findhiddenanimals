@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Find Hidden Animals! - A Fun Sound-Based Browser Game</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S5NR22GKH2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-S5NR22GKH2');
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🔍</text></svg>">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Play this unique browser game where you find invisible animals using sound! Click around and follow the bell sounds to locate hidden animals. Perfect for all ages!">
+    <meta name="keywords" content="browser game, sound game, hidden animals, find the cow, kids game, family game, educational game">
+    <meta name="author" content="Find Hidden Animals">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="game-area">
+        <!-- Add clouds -->
+        <div class="cloud" style="top: 10%; animation-duration: 30s;"></div>
+        <div class="cloud" style="top: 20%; animation-duration: 25s; animation-delay: 5s;"></div>
+        <div class="cloud" style="top: 15%; animation-duration: 35s; animation-delay: 12s;"></div>
+        
+        <!-- Add navigation menu -->
+        <nav class="game-nav">
+            <div class="nav-content">
+                <a href="/" class="nav-logo">Find Hidden Animals</a>
+                <div class="nav-links">
+                    <div class="dropdown">
+                        <button class="dropbtn">Games ▾</button>
+                        <div class="dropdown-content">
+                            <a href="/">All Games</a>
+                            <a href="/find.html" class="active">Find Animals</a>
+                            <a href="/flashcards.html">Sound Cards</a>
+                            <a href="/factcards.html">Fact Cards</a>
+                            <a href="/habitat.html">Habitat Match</a>
+                            <a href="/diet.html">Diet Match</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Add farm decorations -->
+        <div class="farm-decorations">
+            <div class="grass-texture"></div>
+            
+            <!-- Trees -->
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+
+            <!-- Flowers -->
+            <div class="flower"></div>
+            <div class="flower"></div>
+            <div class="flower"></div>
+            <div class="flower"></div>
+            <div class="flower"></div>
+
+            <!-- Wooden Benches -->
+            <div class="wooden-bench"></div>
+            <div class="wooden-bench"></div>
+
+            <!-- Grass Patches -->
+            <div class="grass-patch"></div>
+            <div class="grass-patch"></div>
+            <div class="grass-patch"></div>
+            <div class="grass-patch"></div>
+        </div>
+
+        <div class="game-overlay">
+            <div class="game-header">
+                <div class="score-container">
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="high-score">Best: <span id="high-score">0</span></div>
+                    <div class="total-finds">Total Finds: <span id="total-finds">0</span></div>
+                    <!-- Tooltip for instructions -->
+                    <div class="tooltip-container">
+                        <span class="tooltip-icon">?</span>
+                        <div class="tooltip-text">
+                            Click around the game area to search for hidden animals. Listen for the bell sound that gets louder as you get closer!
+                        </div>
+                    </div>
+                </div>
+                <div class="level-info">
+                    <div class="current-animal">Level <span id="current-level">1</span>: <span id="animal-name">Cow</span></div>
+                    <div class="finds-counter"><span id="animal-finds">0</span> finds</div>
+                </div>
+                <div class="timer">Time: <span id="time">0</span>s</div>
+            </div>
+            
+            <div id="start-screen" class="center-content">
+                <h1>Find Hidden Animals!</h1>
+                <div id="animal-select">
+                    <div class="animal-grid">
+                        <!-- Animal cards will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                <div id="instructions">
+                    <p>Click around to find the invisible animal!</p>
+                    <p>The closer you get, the louder the bell rings!</p>
+                    <p class="mobile-note">(Turn on sound for best experience)</p>
+                </div>
+                <div id="unlock-progress">
+                    <div class="progress-text">Next unlock: <span id="next-unlock">Find cow 5 times</span></div>
+                    <div class="progress-bar">
+                        <div id="unlock-progress-fill"></div>
+                    </div>
+                </div>
+                <button id="start-game">Start Game</button>
+            </div>
+            
+            <div id="win-message" class="center-content" style="display: none;">
+                <h2>You found the <span id="found-animal">cow</span>! 🎉</h2>
+                <div id="unlock-notification" style="display: none;">
+                    <h3>🎉 New Animal Unlocked! 🎉</h3>
+                    <p>You've unlocked the <span id="unlocked-animal">sheep</span>!</p>
+                </div>
+                <div class="social-share">
+                    <button class="share-btn twitter">
+                        <i class="fab fa-x-twitter"></i> Share
+                    </button>
+                    <button class="share-btn facebook">
+                        <i class="fab fa-facebook"></i> Share
+                    </button>
+                    <button class="share-btn copy-link">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                </div>
+                <button id="play-again">Play Again</button>
+                <button id="change-animal">Change Animal</button>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="/about.html">About</a>
+            </div>
+            <div class="copyright">
+                © 2025 Find Hidden Animals. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="game.js"></script>
+    <!-- Prevent right-click -->
+    <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+        }
+    });
+    </script>
+</body>
+</html> 
