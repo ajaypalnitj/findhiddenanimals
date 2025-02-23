@@ -1295,8 +1295,8 @@ button:active {
 
 @media (max-width: 768px) {
     .flashcard-container {
-        min-height: calc(100vh - 50px);  /* Account for smaller nav on mobile */
-        margin-top: 50px;  /* Match smaller nav height */
+        min-height: calc(100vh - 50px);
+        margin-top: 50px;
     }
     
     .game-area {
@@ -1304,19 +1304,66 @@ button:active {
     }
     
     .flashcard-container .game-header {
-        padding: 10px;
+        padding: 15px;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
         text-align: center;
     }
     
     .flashcard-container .score-info {
-        font-size: 16px;
+        font-size: 1.2em;
         justify-content: center;
+        gap: 15px;
     }
     
     .flashcard-container .timer {
-        font-size: 16px;
+        font-size: 1.2em;
+    }
+
+    .card {
+        height: 220px !important;  /* Override any other height settings */
+    }
+
+    .card-front i {
+        font-size: 2.5em !important;
+    }
+
+    .card-back {
+        font-size: 1.1em !important;
+    }
+
+    .animal-name {
+        font-size: 1.3em !important;
+        margin-top: 10px;
+    }
+
+    .diet-foods, .habitat-desc, .fact-text {
+        font-size: 1.1em !important;
+        max-height: 120px !important;
+    }
+
+    .game-button, #restart-button {
+        font-size: 1.2em !important;
+        padding: 15px 30px !important;
+        min-width: 200px;
+    }
+
+    .mode-btn {
+        font-size: 1.1em !important;
+        padding: 12px 24px !important;
+    }
+
+    h1 {
+        font-size: 2em !important;
+    }
+
+    .mode-description p {
+        font-size: 1.1em !important;
+    }
+
+    .share-btn {
+        font-size: 1.1em !important;
+        padding: 15px 25px !important;
     }
 }
 
