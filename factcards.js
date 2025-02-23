@@ -4,14 +4,12 @@ class FactCardGame {
     constructor() {
         this.score = 0;
         this.highScore = parseInt(localStorage.getItem('factcardHighScore')) || 0;
-        this.easyHighScore = parseInt(localStorage.getItem('factcardEasyHighScore')) || 0;
-        this.hardHighScore = parseInt(localStorage.getItem('factcardHardHighScore')) || 0;
-        this.timeLeft = 60;
+        this.timeLeft = 30;
         this.timer = null;
         this.cards = [];
         this.selectedCards = [];
         this.matchedPairs = 0;
-        this.difficulty = 'easy'; // default mode
+        this.isHardMode = false;
 
         // Get DOM elements
         this.startScreen = document.getElementById('start-screen');
@@ -24,70 +22,69 @@ class FactCardGame {
         this.cardsGrid = document.querySelector('.cards-grid');
 
         // Add event listeners
-        document.getElementById('start-button').addEventListener('click', () => this.startGame());
+        document.getElementById('start-button').addEventListener('click', () => this.startNewGame());
         document.getElementById('play-again').addEventListener('click', () => this.startGame());
         document.getElementById('restart-button').addEventListener('click', () => this.startGame());
-        document.getElementById('easy-mode').addEventListener('click', () => this.setDifficulty('easy'));
-        document.getElementById('hard-mode').addEventListener('click', () => this.setDifficulty('hard'));
+        document.getElementById('easy-mode').addEventListener('click', () => this.setDifficulty(false));
+        document.getElementById('hard-mode').addEventListener('click', () => this.setDifficulty(true));
 
         // Initialize display
         this.updateScore();
-        this.setDifficulty('easy');
     }
 
-    setDifficulty(mode) {
-        this.difficulty = mode;
-        this.timeLeft = mode === 'easy' ? 60 : 30;
-        
-        // Update UI to show active mode
-        document.getElementById('easy-mode').classList.toggle('active', mode === 'easy');
-        document.getElementById('hard-mode').classList.toggle('active', mode === 'hard');
-        
-        // Update high score display based on mode
-        this.highScore = mode === 'easy' ? 
-            parseInt(localStorage.getItem('factcardEasyHighScore')) || 0 :
-            parseInt(localStorage.getItem('factcardHardHighScore')) || 0;
-        this.updateScore();
+    setDifficulty(isHard) {
+        this.isHardMode = isHard;
+        this.timeLeft = isHard ? 30 : 60;
+        document.getElementById('easy-mode').classList.toggle('active', !isHard);
+        document.getElementById('hard-mode').classList.toggle('active', isHard);
+        document.getElementById('easy-description').classList.toggle('hidden', isHard);
+        document.getElementById('hard-description').classList.toggle('hidden', !isHard);
     }
 
     startGame() {
-        // Reset game state
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
         this.score = 0;
-        this.timeLeft = this.difficulty === 'easy' ? 60 : 30;
+        this.timeLeft = this.isHardMode ? 30 : 60;
         this.matchedPairs = 0;
         this.selectedCards = [];
         this.cards = [];
         this.cardsGrid.innerHTML = '';
+        
+        this.startScreen.classList.remove('hidden');
+        this.endScreen.classList.add('hidden');
+        this.gameScreen.classList.add('hidden');
+        
+        this.updateScore();
+        this.updateTimer();
+    }
 
-        // Show game screen
+    startNewGame() {
         this.startScreen.classList.add('hidden');
         this.endScreen.classList.add('hidden');
         this.gameScreen.classList.remove('hidden');
-
-        // Create cards
+        
         this.createCards();
-
-        // Start timer
         this.startTimer();
-
-        // Update display
+        
         this.updateScore();
         this.updateTimer();
     }
 
     createCards() {
-        // Create pairs of cards (animal + fact)
         let cardPairs = [];
-        Object.entries(ANIMALS).forEach(([key, animal]) => {
-            // Add animal card
+        // Get first 5 animals only
+        const animals = Object.entries(ANIMALS).slice(0, 5);
+        
+        animals.forEach(([key, animal]) => {
             cardPairs.push({
                 type: 'animal',
-                content: `<img src="${animal.sprite}" alt="${animal.name}">
-                         <div>${animal.name}</div>`,
+                content: `<img src="${animal.sprite}" alt="${animal.name}"><div>${animal.name}</div>`,
                 match: animal.name
             });
 
-            // Add fact card using clean facts
             const facts = ANIMAL_FACTS_CLEAN[key];
             const fact = facts[Math.floor(Math.random() * facts.length)];
             cardPairs.push({
@@ -97,29 +94,16 @@ class FactCardGame {
             });
         });
 
-        // Shuffle and slice to get 6 pairs
-        this.cards = cardPairs
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 12);
+        this.cards = cardPairs.sort(() => Math.random() - 0.5);
 
-        // Create and add card elements
         this.cards.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            
-            // Create front and back of card
-            const front = document.createElement('div');
-            front.className = 'card-front';
-            front.innerHTML = '<i class="fas fa-question"></i>';
-
-            const back = document.createElement('div');
-            back.className = 'card-back';
-            back.innerHTML = card.content;
-            
-            cardElement.appendChild(front);
-            cardElement.appendChild(back);
+            cardElement.innerHTML = `
+                <div class="card-front"><i class="fas fa-question"></i></div>
+                <div class="card-back">${card.content}</div>
+            `;
             cardElement.dataset.index = index;
-            
             cardElement.addEventListener('click', () => this.handleCardClick(index));
             this.cardsGrid.appendChild(cardElement);
         });
@@ -128,71 +112,74 @@ class FactCardGame {
     handleCardClick(index) {
         const cardElement = this.cardsGrid.children[index];
 
-        // Ignore if card is already matched or selected
         if (cardElement.classList.contains('matched') || 
             this.selectedCards.includes(index) ||
             this.selectedCards.length >= 2) {
             return;
         }
 
-        // Add to selected cards
         this.selectedCards.push(index);
         cardElement.classList.add('flipped');
 
-        // If we have a pair selected
         if (this.selectedCards.length === 2) {
             const [firstIndex, secondIndex] = this.selectedCards;
             const firstCard = this.cards[firstIndex];
             const secondCard = this.cards[secondIndex];
 
-            // Check if they match
             if (firstCard.match === secondCard.match) {
-                // Mark as matched
+                this.matchedPairs++;
+                
+                if (this.matchedPairs === 5) {
+                    // Stop timer and update game state
+                    clearInterval(this.timer);
+                    this.timer = null;
+                    
+                    // Calculate final score with time bonus
+                    const timeBonus = Math.floor(this.timeLeft * (this.isHardMode ? 10 : 5));
+                    this.score += this.isHardMode ? 200 : 100;
+                    this.score += timeBonus;
+                    this.updateScore();
+                    
+                    this.endGame(true);
+                    return;
+                }
+                
                 setTimeout(() => {
                     this.cardsGrid.children[firstIndex].classList.add('matched');
                     this.cardsGrid.children[secondIndex].classList.add('matched');
                 }, 500);
                 
-                this.matchedPairs++;
-                this.score += 100;
+                this.score += this.isHardMode ? 200 : 100;
                 this.updateScore();
-
-                // Check if game is won
-                if (this.matchedPairs === 6) {
-                    this.endGame(true);
-                }
             } else {
-                // Show wrong match briefly
                 setTimeout(() => {
-                    this.cardsGrid.children[firstIndex].classList.add('wrong');
-                    this.cardsGrid.children[secondIndex].classList.add('wrong');
-                }, 500);
+                    this.cardsGrid.children[firstIndex].classList.remove('flipped');
+                    this.cardsGrid.children[secondIndex].classList.remove('flipped');
+                }, 1000);
                 
-                this.score = Math.max(0, this.score - 20);
+                this.score = Math.max(0, this.score - (this.isHardMode ? 40 : 20));
                 this.updateScore();
-
-                // Reset cards after delay
-                setTimeout(() => {
-                    this.cardsGrid.children[firstIndex].classList.remove('flipped', 'wrong');
-                    this.cardsGrid.children[secondIndex].classList.remove('flipped', 'wrong');
-                }, 1500);
             }
 
-            // Reset selection
             setTimeout(() => {
                 this.selectedCards = [];
-            }, 1500);
+            }, 1000);
         }
     }
 
     startTimer() {
-        if (this.timer) clearInterval(this.timer);
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
         
         this.timer = setInterval(() => {
             this.timeLeft--;
             this.updateTimer();
             
             if (this.timeLeft <= 0) {
+                clearInterval(this.timer);
+                this.timer = null;
                 this.endGame(false);
             }
         }, 1000);
@@ -200,7 +187,7 @@ class FactCardGame {
 
     updateTimer() {
         this.timerElement.textContent = this.timeLeft;
-        const progress = (this.timeLeft / 30) * 100;
+        const progress = (this.timeLeft / (this.isHardMode ? 30 : 60)) * 100;
         this.progressFill.style.width = `${progress}%`;
     }
 
@@ -210,56 +197,31 @@ class FactCardGame {
     }
 
     endGame(won) {
-        clearInterval(this.timer);
-        
-        // Calculate bonus points for remaining time
-        if (won) {
-            const timeBonus = Math.floor(this.timeLeft * 5); // 5 points per second remaining
-            this.score += timeBonus;
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
         }
         
-        // Update appropriate high score based on difficulty
-        const highScoreKey = this.difficulty === 'easy' ? 'factcardEasyHighScore' : 'factcardHardHighScore';
         if (this.score > this.highScore) {
             this.highScore = this.score;
-            localStorage.setItem(highScoreKey, this.highScore);
+            localStorage.setItem('factcardHighScore', this.highScore);
         }
 
-        // Show end screen with appropriate message
         document.getElementById('final-score').textContent = this.score;
         document.getElementById('final-high-score').textContent = this.highScore;
         
         const endMessage = won 
-            ? `Congratulations! You matched all the animals with their facts!<br>
-               Score: ${this.score}<br>
-               ${this.timeLeft > 0 ? `Time Bonus: ${Math.floor(this.timeLeft * 5)} points!` : ''}`
+            ? `Congratulations! You matched all the animals with their facts!<br>Score: ${this.score}`
             : `Time's up! You matched ${this.matchedPairs} pairs.<br>Score: ${this.score}`;
         
         document.getElementById('end-message').innerHTML = endMessage;
         
         this.gameScreen.classList.add('hidden');
         this.endScreen.classList.remove('hidden');
-
-        // Setup share buttons
-        const difficultyText = this.difficulty === 'easy' ? 'Easy Mode' : 'Hard Mode';
-        const shareText = `I scored ${this.score} points in Animal Fact Cards (${difficultyText})! Can you beat my score? 🎮 Play now at`;
-        const shareUrl = 'https://findhiddenanimals.com/factcards.html';
-
-        // Twitter share
-        document.querySelector('.twitter').addEventListener('click', () => {
-            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-            window.open(twitterUrl, '_blank');
-        });
-
-        // Facebook share
-        document.querySelector('.facebook').addEventListener('click', () => {
-            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
-            window.open(facebookUrl, '_blank');
-        });
     }
 }
 
 // Initialize game when window loads
 window.addEventListener('load', () => {
-    const game = new FactCardGame();
+    new FactCardGame();
 }); 
