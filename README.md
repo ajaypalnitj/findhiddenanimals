@@ -161,3 +161,47 @@ A fun browser game where you need to find the invisible animal by following the 
 - The closer you get, the louder the bell rings
 - Find the cow to win!
 - Unlock more levels and more animals
+
+# Find Hidden Animals
+
+A collection of educational games for learning about farm animals.
+
+## Games
+
+1. **Find Animals**: A fun game where players find hidden animals in various scenes.
+2. **Animal Match**: Match pairs of animal cards to test your memory and learn about farm animals.
+3. **Sound Cards**: Match animals with their correct sounds to learn animal noises.
+4. **Fact Cards**: Learn interesting facts about different farm animals.
+5. **Habitat Match**: Learn where different animals live by matching them to their habitats.
+6. **Diet Match**: Learn what different animals eat by matching them to their diets.
+
+## Features
+
+- Educational and engaging gameplay
+- Beautiful, responsive design
+- Progressive difficulty levels
+- High score tracking
+- Social sharing
+- Mobile-friendly interface
+
+## Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Responsive Design
+- Local Storage for game progress
+
+## Getting Started
+
+1. Clone the repository
+2. Open index.html in your browser
+3. Start playing and learning about animals!
+
+## Contributing
+
+Feel free to submit issues and enhancement requests.
+
+## License
+
+This project is licensed under the terms of the MIT license.
